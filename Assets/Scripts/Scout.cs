@@ -7,16 +7,24 @@ public class Scout : MonoBehaviour
     private Animator _scoutAnimator;
     private float _deathAnimDuration = 0f;
 
+    [SerializeField] private Waypoints _waypointsValues;
+    private Vector2[] _path;
+    private int _currentWayPoint = 0;
+
+    private float _speed = 3f;
+
     private void Awake() {
         initializeAnimParams();
     }
 
     private void Start() {
-        
+        _path = _waypointsValues.paths[2];
     }
 
     private void Update() {
-        
+        if(_currentWayPoint < _path.Length) {
+            MoveToWaypoint(_path[_currentWayPoint]);
+        }
     }
 
     private void initializeAnimParams() {
@@ -35,5 +43,12 @@ public class Scout : MonoBehaviour
         }
         yield return new WaitForSeconds(_deathAnimDuration);
         gameObject.SetActive(false);
+    }
+
+    private void MoveToWaypoint(Vector2 waypoint) {
+        transform.position = Vector2.MoveTowards(transform.position, waypoint, _speed * Time.deltaTime);
+        if(transform.position.x == waypoint.x && transform.position.y == waypoint.y) {
+            _currentWayPoint++;
+        }
     }
 }
