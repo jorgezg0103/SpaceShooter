@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, mousePosition, _speed * Time.deltaTime);
     }
 
-    private void Update() {
+    private void FixedUpdate() {
         MovePlayerToMousePosition();
     }
 
