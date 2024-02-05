@@ -461,6 +461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _waypointsValues: {fileID: 11400000, guid: a61003b382a71de43967222c9c818f51, type: 2}
+  _bullet: {fileID: 1195859961480350502, guid: f24713e8b03251c4bb18a97cabda53e7, type: 3}
 --- !u!61 &316673512
 BoxCollider2D:
   m_ObjectHideFlags: 0

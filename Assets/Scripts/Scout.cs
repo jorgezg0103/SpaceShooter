@@ -14,12 +14,19 @@ public class Scout : MonoBehaviour
     private float _speed = 3f;
     private int _health = 1;
 
+    private float _minShootInterval = 1f;
+    private float _maxShootInterval = 3f;
+
+    [SerializeField] private GameObject _bullet;
+    private float _bulletOffset = -0.6f;
+
     private void Awake() {
-        initializeAnimParams();
+        InitializeAnimParams();
     }
 
     private void Start() {
         _path = _waypointsValues.paths[2];
+        InvokeRepeating("Shoot", 0f, Random.Range(_minShootInterval, _maxShootInterval));
     }
 
     private void Update() {
@@ -32,12 +39,12 @@ public class Scout : MonoBehaviour
         if(collision.gameObject.tag == "Player") {
             _health--;
             if(_health <= 0) {
-                StartCoroutine(death());
+                StartCoroutine(Death());
             }
         }
     }
 
-    private void initializeAnimParams() {
+    private void InitializeAnimParams() {
         _scoutAnimator = transform.GetComponent<Animator>();
         AnimationClip[] clips = _scoutAnimator.runtimeAnimatorController.animationClips;
         foreach(AnimationClip clip in clips) {
@@ -46,7 +53,7 @@ public class Scout : MonoBehaviour
             }
         }
     }
-    private IEnumerator death() {
+    private IEnumerator Death() {
         _scoutAnimator.SetBool("isDead", true);
         foreach(Transform child in transform) {
             child.gameObject.SetActive(false);
@@ -61,4 +68,10 @@ public class Scout : MonoBehaviour
             _currentWayPoint++;
         }
     }
+
+    private void Shoot() {
+        GameObject newBullet = Instantiate(_bullet);
+        newBullet.transform.position = transform.position + new Vector3(0, _bulletOffset, 0);
+    }
+
 }
