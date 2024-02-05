@@ -12,6 +12,7 @@ public class Scout : MonoBehaviour
     private int _currentWayPoint = 0;
 
     private float _speed = 3f;
+    private int _health = 1;
 
     private void Awake() {
         initializeAnimParams();
@@ -24,6 +25,15 @@ public class Scout : MonoBehaviour
     private void Update() {
         if(_currentWayPoint < _path.Length) {
             MoveToWaypoint(_path[_currentWayPoint]);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if(collision.gameObject.tag == "Player") {
+            _health--;
+            if(_health <= 0) {
+                StartCoroutine(death());
+            }
         }
     }
 
