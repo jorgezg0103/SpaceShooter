@@ -13,6 +13,7 @@ public class LimitsController : MonoBehaviour
     };
 
     private GameObject[] _limits = new GameObject[4];
+    private GameObject _triggerCollider;
 
 
     void SetLimitsInCameraBoundaries() {
@@ -41,31 +42,39 @@ public class LimitsController : MonoBehaviour
 
         Vector3 currentTopLimitScale = _limits[(int)Limits.Top].transform.localScale;
         Vector3 currentBottomLimitScale = _limits[(int)Limits.Bottom].transform.localScale;
-        currentTopLimitScale.x = width;
-        currentBottomLimitScale.x = width;
+        currentTopLimitScale = new Vector3(width, 0.1f);
+        currentBottomLimitScale = new Vector3(width, 0.5f);
         _limits[(int)Limits.Top].transform.localScale = currentTopLimitScale;
         _limits[(int)Limits.Bottom].transform.localScale = currentBottomLimitScale;
 
         Vector3 currentLeftLimitScale = _limits[(int)Limits.Left].transform.localScale;
         Vector3 currentRightLimitScale = _limits[(int)Limits.Right].transform.localScale;
-        currentLeftLimitScale.y = height;
-        currentRightLimitScale.y = height;
+        currentLeftLimitScale = new Vector3(0.1f, height);
+        currentRightLimitScale = new Vector3(0.1f, height);
         _limits[(int)Limits.Left].transform.localScale = currentLeftLimitScale;
         _limits[(int)Limits.Right].transform.localScale = currentRightLimitScale;
+    }
+
+    void CreateTriggerLimit() {
+        _triggerCollider = new GameObject("TriggerLimit");
+        _triggerCollider.transform.parent = transform;
+        BoxCollider2D collider = _triggerCollider.AddComponent<BoxCollider2D>();
+        collider.isTrigger = true;
+        _triggerCollider.transform.position = _limits[(int) Limits.Bottom].transform.position - new Vector3(0f, 1f);
+        _triggerCollider.transform.localScale = _limits[(int) Limits.Bottom].transform.localScale;
     }
 
     void Start()
     {
 
         for(int i = 0; i < _limits.Length; i++) {
-            _limits[i] = new GameObject();
+            _limits[i] = new GameObject(((Limits) i).ToString());
             _limits[i].AddComponent<BoxCollider2D>();
             _limits[i].transform.parent = transform;
-            _limits[i].name = ((Limits) i).ToString();
         }
-
-        SetLimitsInCameraBoundaries();
         SetLimitsWidthAndHeight();
+        SetLimitsInCameraBoundaries();
+        CreateTriggerLimit();
     }
 
 }
