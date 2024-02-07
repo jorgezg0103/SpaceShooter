@@ -7,26 +7,31 @@ public class Scout : MonoBehaviour
     private Animator _scoutAnimator;
     private float _deathAnimDuration = 0f;
 
-    [SerializeField] private Waypoints _waypointsValues;
+    [SerializeField] private PoolController _poolController;
     private Vector2[] _path;
+    private int _selectedPath = 0;
     private int _currentWayPoint = 0;
 
     private float _speed = 3f;
     private int _health = 1;
 
-    private float _minShootInterval = 1f;
-    private float _maxShootInterval = 3f;
-
-    [SerializeField] private GameObject _bullet;
     private float _bulletOffset = -0.6f;
+
+    float _timer = 0f;
+    float _timeBtwShoot = 1f;
+    float _minShootInterval = 1f;
+    float _maxShootInterval = 3f;
 
     private void Awake() {
         InitializeAnimParams();
     }
 
     private void Start() {
-        _path = _waypointsValues.paths[2];
-        InvokeRepeating("Shoot", 0f, Random.Range(_minShootInterval, _maxShootInterval));
+        _poolController = GameObject.Find("Spawner").GetComponent<PoolController>();
+    }
+
+    private void OnEnable() {
+        StartCoroutine(Shoot());
     }
 
     private void Update() {
@@ -35,13 +40,21 @@ public class Scout : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
+    private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.tag == "Player") {
             _health--;
             if(_health <= 0) {
                 StartCoroutine(Death());
             }
         }
+        if(collision.gameObject.name == "TriggerLimit") {
+            gameObject.SetActive(false);
+            _currentWayPoint = 0;
+        }
+    }
+
+    public void SetScoutPath(Vector2[] path) {
+        _path = path;
     }
 
     private void InitializeAnimParams() {
@@ -60,6 +73,8 @@ public class Scout : MonoBehaviour
         }
         yield return new WaitForSeconds(_deathAnimDuration);
         gameObject.SetActive(false);
+        _currentWayPoint = 0;
+        _scoutAnimator.SetBool("isDead", false);
     }
 
     private void MoveToWaypoint(Vector2 waypoint) {
@@ -69,9 +84,17 @@ public class Scout : MonoBehaviour
         }
     }
 
-    private void Shoot() {
-        GameObject newBullet = Instantiate(_bullet);
-        newBullet.transform.position = transform.position + new Vector3(0, _bulletOffset, 0);
+    private IEnumerator Shoot() {
+        while(gameObject.activeSelf) {
+            _timer += Time.deltaTime;
+            if(_timer >= _timeBtwShoot) {
+                _timeBtwShoot = Random.Range(_minShootInterval, _maxShootInterval);
+                GameObject newBullet = _poolController.GetBullet();
+                newBullet.transform.position = transform.position + new Vector3(0, _bulletOffset, 0);
+                _timer = 0;
+            }
+            yield return null;
+        }
     }
 
 }

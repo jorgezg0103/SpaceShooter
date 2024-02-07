@@ -12,13 +12,7 @@ public class Proyectile : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        Destroy(gameObject);
-    }
-
-    private void OnTriggerExit2D(Collider2D collision) {
-        if(collision.gameObject.name == "Bottom") {
-            gameObject.SetActive(false);
-        }
+        gameObject.SetActive(false);
     }
 
 }

@@ -15,8 +15,11 @@ public class Player : MonoBehaviour
         if(collision.gameObject.tag == "Bullet") {
             _health--;
             if(_health <= 0) {
-                Debug.Log("WIP");
+                Debug.Log("Game Over");
             }
+        }
+        if(collision.gameObject.tag == "Health") {
+            _health += collision.gameObject.GetComponent<Health>().getHealth();
         }
     }
 
