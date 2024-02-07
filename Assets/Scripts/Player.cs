@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
             }
         }
         if(collision.gameObject.tag == "Health") {
-            _health++;
+            _health += collision.gameObject.GetComponent<Health>().getHealth();
         }
     }
 
