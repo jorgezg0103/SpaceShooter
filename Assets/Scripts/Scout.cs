@@ -15,15 +15,12 @@ public class Scout : MonoBehaviour
     private float _speed = 3f;
     private int _health = 1;
 
-    private float _minShootInterval = 1f;
-    private float _maxShootInterval = 3f;
-
     private float _bulletOffset = -0.6f;
 
-    float timer = 0f;
-    float timeBtwShoot = 1f;
-    float minShootTime = 1f;
-    float maxShootTime = 3f;
+    float _timer = 0f;
+    float _timeBtwShoot = 1f;
+    float _minShootInterval = 1f;
+    float _maxShootInterval = 3f;
 
     private void Awake() {
         InitializeAnimParams();
@@ -86,12 +83,12 @@ public class Scout : MonoBehaviour
 
     private IEnumerator Shoot() {
         while(gameObject.activeSelf) {
-            timer += Time.deltaTime;
-            if(timer >= timeBtwShoot) {
-                timeBtwShoot = Random.Range(minShootTime, maxShootTime);
+            _timer += Time.deltaTime;
+            if(_timer >= _timeBtwShoot) {
+                _timeBtwShoot = Random.Range(_minShootInterval, _maxShootInterval);
                 GameObject newBullet = _poolController.GetBullet();
                 newBullet.transform.position = transform.position + new Vector3(0, _bulletOffset, 0);
-                timer = 0;
+                _timer = 0;
             }
             yield return null;
         }
