@@ -19,7 +19,7 @@ public class PoolController : MonoBehaviour {
         GameObject bullets = new GameObject("Bullets");
         GeneratePool(_scoutPrefab, _enemiesPool, enemies.transform);
         GeneratePool(_bulletPrefab, _bulletsPool, bullets.transform);
-        // WIP generatePool(_healthPrefab, _healthPool, pickUps.transform, 3);
+        GeneratePool(_healthPrefab, _healthPool, pickUps.transform, 3);
     }
 
     private void GeneratePool(GameObject prefab, List<GameObject> pool, Transform parent, int amount = _defaultPoolSize) {

@@ -85,8 +85,7 @@ public class Spawner : MonoBehaviour {
     }
 
     private void SpawnEntity() {
-        // WIP float random = Random.Range(0f, 1f);
-        float random = 1f;
+        float random = Random.Range(0f, 1f);
         if(random > _spawnPickUpProb) {
             SpawnEnemy();
         }

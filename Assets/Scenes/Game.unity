@@ -594,7 +594,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scoutPrefab: {fileID: 6308046889674426287, guid: 57ee89e8f7ca0f94192b6153327286c3, type: 3}
   _bulletPrefab: {fileID: 1195859961480350502, guid: f24713e8b03251c4bb18a97cabda53e7, type: 3}
-  _healthPrefab: {fileID: 8914241067510603899, guid: 2821c69d6f69f7847a959376146418cf, type: 3}
+  _healthPrefab: {fileID: 6359566837570654724, guid: 66fd9c46922717248a1226c783a0e34f, type: 3}
 --- !u!114 &1161878581
 MonoBehaviour:
   m_ObjectHideFlags: 0
