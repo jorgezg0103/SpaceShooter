@@ -16,10 +16,12 @@ public class Spawner : MonoBehaviour {
     [Header("Spawn Settings")]
     [SerializeField] private float _minSpawnTime = 2f;
     [SerializeField] private float _maxSpawmTime = 3f;
-    [SerializeField] private float _minSpawnTimeLimit = 1f;
-    [SerializeField] private float _maxSpawmTimeLimit = 2f;
-    [SerializeField] private float _decraseTimePerIteration = 0.001f;
     [SerializeField] private float _spawnPickUpProb = 0.1f;
+
+    [Header("Scout Squad Settings")]
+    [SerializeField] private int _minSquadUnits = 3;
+    [SerializeField] private int _maxSquadUnits = 6;
+    [SerializeField] private Waypoints _waypointsValues;
 
     private float timeBtwSpawn = 2f;
     private float timer = 0;
@@ -51,23 +53,31 @@ public class Spawner : MonoBehaviour {
         return new Vector2(screenPos.x, transform.position.y);
     }
 
-    private GameObject GetRandomEnemy() {
-        int random = Random.Range(0, typeof(Enemies).GetEnumValues().Length);
-        GameObject enemy;
-        switch(random) {
-            case (int) Enemies.Scout:
-            enemy = _poolManager.GetEnemy();
-            break;
-            default:
-            enemy = _poolManager.GetEnemy();
-            break;
+    private int GetRandomEnemy() {
+        return Random.Range(0, typeof(Enemies).GetEnumValues().Length);
+    }
+
+    private void SpawnScoutSquad(int quantity) {
+        int randomPathIndex = Random.Range(0, _waypointsValues.paths.Length);
+        Vector2[] selectedPath = _waypointsValues.paths[randomPathIndex];
+        for(int i = 0; i < quantity; i++) {
+            GameObject enemy = _poolManager.GetScout();
+            enemy.GetComponent<Scout>().SetScoutPath(selectedPath);
+            enemy.transform.position = transform.position + new Vector3(0f, i*2);
         }
-        return enemy;
     }
 
     private void SpawnEnemy() {
-        GameObject enemy = GetRandomEnemy();
-        enemy.transform.position = SelectRandomLocation();
+        int enemyIndex = GetRandomEnemy();
+        switch(enemyIndex) {
+            case (int) Enemies.Scout:
+            int units = Random.Range(_minSquadUnits, _maxSquadUnits);
+            SpawnScoutSquad(units);
+            break;
+            default:
+            SpawnScoutSquad(_minSquadUnits);
+            break;
+        }
     }
 
     private void SpawnPickUp() {
@@ -103,8 +113,6 @@ public class Spawner : MonoBehaviour {
             timer += Time.deltaTime;
             if(timer >= timeBtwSpawn) {
                 timeBtwSpawn = Random.Range(_minSpawnTime, _maxSpawmTime);
-                if(_minSpawnTime > _minSpawnTimeLimit) _minSpawnTime -= _decraseTimePerIteration;
-                if(_maxSpawmTime > _maxSpawmTimeLimit) _maxSpawmTime -= _decraseTimePerIteration;
                 SpawnEntity();
                 timer = 0;
             }

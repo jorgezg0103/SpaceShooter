@@ -9,7 +9,7 @@ public class PoolController : MonoBehaviour {
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private GameObject _healthPrefab;
 
-    private List<GameObject> _enemiesPool = new List<GameObject>();
+    private List<GameObject> _scoutPool = new List<GameObject>();
     private List<GameObject> _bulletsPool = new List<GameObject>();
     private List<GameObject> _healthPool = new List<GameObject>();
 
@@ -17,7 +17,7 @@ public class PoolController : MonoBehaviour {
         GameObject enemies = new GameObject("Enemies");
         GameObject pickUps = new GameObject("PickUps");
         GameObject bullets = new GameObject("Bullets");
-        GeneratePool(_scoutPrefab, _enemiesPool, enemies.transform);
+        GeneratePool(_scoutPrefab, _scoutPool, enemies.transform);
         GeneratePool(_bulletPrefab, _bulletsPool, bullets.transform);
         GeneratePool(_healthPrefab, _healthPool, pickUps.transform, 3);
     }
@@ -30,9 +30,9 @@ public class PoolController : MonoBehaviour {
         }
     }
 
-    public GameObject GetEnemy() {
+    public GameObject GetScout() {
         GameObject newEnemy;
-        newEnemy = GetObjectFromPool(_enemiesPool, _scoutPrefab);
+        newEnemy = GetObjectFromPool(_scoutPool, _scoutPrefab);
         newEnemy.GetComponent<BoxCollider2D>().enabled = true;
         return newEnemy;
     }

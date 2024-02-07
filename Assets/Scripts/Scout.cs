@@ -7,9 +7,9 @@ public class Scout : MonoBehaviour
     private Animator _scoutAnimator;
     private float _deathAnimDuration = 0f;
 
-    [SerializeField] private Waypoints _waypointsValues;
     [SerializeField] private PoolController _poolController;
     private Vector2[] _path;
+    private int _selectedPath = 0;
     private int _currentWayPoint = 0;
 
     private float _speed = 3f;
@@ -28,7 +28,6 @@ public class Scout : MonoBehaviour
 
     private void Start() {
         _poolController = GameObject.Find("Spawner").GetComponent<PoolController>();
-        _path = _waypointsValues.paths[2];
     }
 
     private void OnEnable() {
@@ -52,6 +51,10 @@ public class Scout : MonoBehaviour
             gameObject.SetActive(false);
             _currentWayPoint = 0;
         }
+    }
+
+    public void SetScoutPath(Vector2[] path) {
+        _path = path;
     }
 
     private void InitializeAnimParams() {
