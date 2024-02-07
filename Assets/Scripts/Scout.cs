@@ -45,6 +45,7 @@ public class Scout : MonoBehaviour
         }
         if(collision.gameObject.name == "TriggerLimit") {
             gameObject.SetActive(false);
+            _currentWayPoint = 0;
         }
     }
 
@@ -64,6 +65,7 @@ public class Scout : MonoBehaviour
         }
         yield return new WaitForSeconds(_deathAnimDuration);
         gameObject.SetActive(false);
+        _currentWayPoint = 0;
         _scoutAnimator.SetBool("isDead", false);
     }
 
