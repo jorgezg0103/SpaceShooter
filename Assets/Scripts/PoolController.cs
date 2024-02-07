@@ -13,7 +13,16 @@ public class PoolController : MonoBehaviour {
     private List<GameObject> _bulletsPool = new List<GameObject>();
     private List<GameObject> _healthPool = new List<GameObject>();
 
-    private void generatePool(GameObject prefab, List<GameObject> pool, Transform parent, int amount = _defaultPoolSize) {
+    void Start() {
+        GameObject enemies = new GameObject("Enemies");
+        GameObject pickUps = new GameObject("PickUps");
+        GameObject bullets = new GameObject("Bullets");
+        GeneratePool(_scoutPrefab, _enemiesPool, enemies.transform);
+        GeneratePool(_bulletPrefab, _bulletsPool, bullets.transform);
+        // WIP generatePool(_healthPrefab, _healthPool, pickUps.transform, 3);
+    }
+
+    private void GeneratePool(GameObject prefab, List<GameObject> pool, Transform parent, int amount = _defaultPoolSize) {
         for(int i = 0; i < amount; i++) {
             GameObject newObject = Instantiate(prefab, parent);
             newObject.SetActive(false);
@@ -21,22 +30,22 @@ public class PoolController : MonoBehaviour {
         }
     }
 
-    public GameObject getEnemy() {
+    public GameObject GetEnemy() {
         GameObject newEnemy;
-        newEnemy = getObjectFromPool(_enemiesPool, _scoutPrefab);
+        newEnemy = GetObjectFromPool(_enemiesPool, _scoutPrefab);
         newEnemy.GetComponent<BoxCollider2D>().enabled = true;
         return newEnemy;
     }
 
-    public GameObject getBullet() {
-        return getObjectFromPool(_bulletsPool, _bulletPrefab);
+    public GameObject GetBullet() {
+        return GetObjectFromPool(_bulletsPool, _bulletPrefab);
     }
 
-    public GameObject getHealth() {
-        return getObjectFromPool(_healthPool, _healthPrefab);
+    public GameObject GetHealth() {
+        return GetObjectFromPool(_healthPool, _healthPrefab);
     }
 
-    private GameObject getObjectFromPool(List<GameObject> pool, GameObject prefab) {
+    private GameObject GetObjectFromPool(List<GameObject> pool, GameObject prefab) {
         GameObject obj = null;
         foreach(GameObject objInPool in pool) {
             if(!objInPool.activeInHierarchy) {
@@ -50,15 +59,6 @@ public class PoolController : MonoBehaviour {
         }
         obj.SetActive(true);
         return obj;
-    }
-
-    void Start() {
-        GameObject enemies = new GameObject("Enemies");
-        GameObject pickUps = new GameObject("PickUps");
-        GameObject bullets = new GameObject("Bullets");
-        generatePool(_scoutPrefab, _enemiesPool, enemies.transform);
-        generatePool(_bulletPrefab, _bulletsPool, bullets.transform);
-        generatePool(_healthPrefab, _healthPool, pickUps.transform, 3);
     }
 
 }
