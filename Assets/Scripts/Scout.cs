@@ -8,6 +8,7 @@ public class Scout : MonoBehaviour
     private float _deathAnimDuration = 0f;
 
     [SerializeField] private Waypoints _waypointsValues;
+    [SerializeField] private PoolController _poolController;
     private Vector2[] _path;
     private int _currentWayPoint = 0;
 
@@ -17,7 +18,6 @@ public class Scout : MonoBehaviour
     private float _minShootInterval = 1f;
     private float _maxShootInterval = 3f;
 
-    [SerializeField] private GameObject _bullet;
     private float _bulletOffset = -0.6f;
 
     private void Awake() {
@@ -25,6 +25,7 @@ public class Scout : MonoBehaviour
     }
 
     private void Start() {
+        _poolController = GameObject.Find("Spawner").GetComponent<PoolController>();
         _path = _waypointsValues.paths[2];
         InvokeRepeating("Shoot", 0f, Random.Range(_minShootInterval, _maxShootInterval));
     }
@@ -70,7 +71,7 @@ public class Scout : MonoBehaviour
     }
 
     private void Shoot() {
-        GameObject newBullet = Instantiate(_bullet);
+        GameObject newBullet = _poolController.GetBullet();
         newBullet.transform.position = transform.position + new Vector3(0, _bulletOffset, 0);
     }
 
