@@ -607,12 +607,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52f0d96a06e82e640a7d3f434f40f204, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minSpawnTime: 2
-  _maxSpawmTime: 3
-  _minSpawnTimeLimit: 1
-  _maxSpawmTimeLimit: 2
-  _decraseTimePerIteration: 0.001
+  _minSpawnTime: 3
+  _maxSpawmTime: 5
   _spawnPickUpProb: 0.1
+  _minSquadUnits: 3
+  _maxSquadUnits: 6
+  _waypointsValues: {fileID: 11400000, guid: a61003b382a71de43967222c9c818f51, type: 2}
 --- !u!4 &1161878582
 Transform:
   m_ObjectHideFlags: 0
