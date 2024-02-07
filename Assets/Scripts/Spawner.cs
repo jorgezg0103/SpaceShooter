@@ -14,7 +14,6 @@ public class Spawner : MonoBehaviour {
     private PoolController _poolManager;
 
     [Header("Spawn Settings")]
-    [SerializeField] private List<Transform> spawnPoints;
     [SerializeField] private float _minSpawnTime = 2f;
     [SerializeField] private float _maxSpawmTime = 3f;
     [SerializeField] private float _minSpawnTimeLimit = 1f;
@@ -39,76 +38,75 @@ public class Spawner : MonoBehaviour {
     }
 
     void Start() {
-        StartCoroutine(spawn());
+        StartCoroutine(Spawn());
     }
 
     void Update() {
         
     }
 
-    private GameObject getRandomEnemy() {
+    private Vector2 SelectRandomLocation() {
+        int random = Random.Range(0, Screen.width);
+        Vector3 screenPos = Camera.main.ScreenToWorldPoint(new Vector2(random, 0));
+        return new Vector2(screenPos.x, transform.position.y);
+    }
+
+    private GameObject GetRandomEnemy() {
         int random = Random.Range(0, typeof(Enemies).GetEnumValues().Length);
         GameObject enemy;
         switch(random) {
             case (int) Enemies.Scout:
-            enemy = _poolManager.getEnemy();
+            enemy = _poolManager.GetEnemy();
             break;
             default:
-            enemy = _poolManager.getEnemy();
+            enemy = _poolManager.GetEnemy();
             break;
         }
         return enemy;
     }
 
-    private void spawnEnemies() {
-        int quantity = Random.Range(1, spawnPoints.Count);
-        List<Transform> spawnPointsToSelect = new List<Transform>(spawnPoints);
-
-        for(int i = 0; i < quantity; i++) {
-            int index = Random.Range(0, spawnPointsToSelect.Count);
-            GameObject enemy = getRandomEnemy();
-            enemy.transform.position = spawnPointsToSelect[index].position;
-            spawnPointsToSelect.RemoveAt(index);
-        }
+    private void SpawnEnemy() {
+        GameObject enemy = GetRandomEnemy();
+        enemy.transform.position = SelectRandomLocation();
     }
 
-    private void spawnPickUp() {
+    private void SpawnPickUp() {
         int random = Random.Range(0, typeof(PickUps).GetEnumValues().Length);
         GameObject pickUp;
         switch(random) {
             case (int) PickUps.Health:
-            pickUp = _poolManager.getHealth();
+            pickUp = _poolManager.GetHealth();
             break;
             default:
-            pickUp = _poolManager.getHealth();
+            pickUp = _poolManager.GetHealth();
             break;
         }
-        int index = Random.Range(0, spawnPoints.Count);
-        pickUp.transform.position = spawnPoints[index].position;
+        pickUp.transform.position = SelectRandomLocation();
     }
 
-    private void spawnEntity() {
-        float random = Random.Range(0f, 1f);
+    private void SpawnEntity() {
+        // WIP float random = Random.Range(0f, 1f);
+        float random = 1f;
         if(random > _spawnPickUpProb) {
-            spawnEnemies();
+            SpawnEnemy();
         }
         else {
-            spawnPickUp();
+            SpawnPickUp();
         }
     }
 
-    private void stopSpawner() {
+    private void StopSpawner() {
         spawnOff = true;
     }
 
-    private IEnumerator spawn() {
+    private IEnumerator Spawn() {
         while(!spawnOff) {
             timer += Time.deltaTime;
             if(timer >= timeBtwSpawn) {
                 timeBtwSpawn = Random.Range(_minSpawnTime, _maxSpawmTime);
                 if(_minSpawnTime > _minSpawnTimeLimit) _minSpawnTime -= _decraseTimePerIteration;
                 if(_maxSpawmTime > _maxSpawmTimeLimit) _maxSpawmTime -= _decraseTimePerIteration;
-                spawnEntity();
+                SpawnEntity();
                 timer = 0;
             }
             yield return null;
