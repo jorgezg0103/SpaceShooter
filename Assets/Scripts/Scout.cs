@@ -20,6 +20,11 @@ public class Scout : MonoBehaviour
 
     private float _bulletOffset = -0.6f;
 
+    float timer = 0f;
+    float timeBtwShoot = 1f;
+    float minShootTime = 1f;
+    float maxShootTime = 3f;
+
     private void Awake() {
         InitializeAnimParams();
     }
@@ -27,7 +32,10 @@ public class Scout : MonoBehaviour
     private void Start() {
         _poolController = GameObject.Find("Spawner").GetComponent<PoolController>();
         _path = _waypointsValues.paths[2];
-        InvokeRepeating("Shoot", 0f, Random.Range(_minShootInterval, _maxShootInterval));
+    }
+
+    private void OnEnable() {
+        StartCoroutine(Shoot());
     }
 
     private void Update() {
@@ -76,9 +84,17 @@ public class Scout : MonoBehaviour
         }
     }
 
-    private void Shoot() {
-        GameObject newBullet = _poolController.GetBullet();
-        newBullet.transform.position = transform.position + new Vector3(0, _bulletOffset, 0);
+    private IEnumerator Shoot() {
+        while(gameObject.activeSelf) {
+            timer += Time.deltaTime;
+            if(timer >= timeBtwShoot) {
+                timeBtwShoot = Random.Range(minShootTime, maxShootTime);
+                GameObject newBullet = _poolController.GetBullet();
+                newBullet.transform.position = transform.position + new Vector3(0, _bulletOffset, 0);
+                timer = 0;
+            }
+            yield return null;
+        }
     }
 
 }
