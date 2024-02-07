@@ -36,12 +36,15 @@ public class Scout : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) {
+    private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.tag == "Player") {
             _health--;
             if(_health <= 0) {
                 StartCoroutine(Death());
             }
+        }
+        if(collision.gameObject.name == "TriggerLimit") {
+            gameObject.SetActive(false);
         }
     }
 
@@ -61,6 +64,7 @@ public class Scout : MonoBehaviour
         }
         yield return new WaitForSeconds(_deathAnimDuration);
         gameObject.SetActive(false);
+        _scoutAnimator.SetBool("isDead", false);
     }
 
     private void MoveToWaypoint(Vector2 waypoint) {

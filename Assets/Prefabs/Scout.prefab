@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 5070237806085916732}
   - component: {fileID: 5241264159434153979}
   - component: {fileID: 7147153731937578498}
+  - component: {fileID: 4656475790906798318}
   m_Layer: 0
   m_Name: Scout
   m_TagString: Untagged
@@ -158,8 +159,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1974588401
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d86663434e1c67245a81da57df4c6e22, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -206,7 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _waypointsValues: {fileID: 11400000, guid: a61003b382a71de43967222c9c818f51, type: 2}
-  _bullet: {fileID: 1195859961480350502, guid: f24713e8b03251c4bb18a97cabda53e7, type: 3}
+  _poolController: {fileID: 0}
 --- !u!61 &7147153731937578498
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -236,7 +237,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.1}
@@ -252,3 +253,30 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.55, y: 0.65}
   m_EdgeRadius: 0
+--- !u!50 &4656475790906798318
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6308046889674426287}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
