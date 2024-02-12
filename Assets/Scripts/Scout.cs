@@ -41,7 +41,7 @@ public class Scout : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.gameObject.tag == "Player") {
+        if(collision.gameObject.tag == "Player" || collision.gameObject.tag == "PlayerBullet") {
             _health--;
             if(_health <= 0) {
                 StartCoroutine(Death());
@@ -90,6 +90,7 @@ public class Scout : MonoBehaviour
             if(_timer >= _timeBtwShoot) {
                 _timeBtwShoot = Random.Range(_minShootInterval, _maxShootInterval);
                 GameObject newBullet = _poolController.GetBullet();
+                newBullet.GetComponent<Proyectile>().SetEnemyBullet();
                 newBullet.transform.position = transform.position + new Vector3(0, _bulletOffset, 0);
                 _timer = 0;
             }
