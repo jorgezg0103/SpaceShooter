@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 4656475790906798318}
   m_Layer: 0
   m_Name: Scout
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -206,7 +206,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc54f676809dfbb43b71f7acd33e715a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _waypointsValues: {fileID: 11400000, guid: a61003b382a71de43967222c9c818f51, type: 2}
   _poolController: {fileID: 0}
 --- !u!61 &7147153731937578498
 BoxCollider2D:
