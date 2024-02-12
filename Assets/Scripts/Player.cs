@@ -10,8 +10,11 @@ public class Player : MonoBehaviour
 
     private float _bulletOffset = 0.6f;
 
+    private Animator _playerAnimator;
+
     private void Awake() {
         _poolController = GameObject.Find("Spawner").GetComponent<PoolController>();
+        _playerAnimator = gameObject.GetComponent<Animator>();
     }
 
     private void Update() {
@@ -26,7 +29,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.tag == "EnemyBullet") {
-            _health--;
+            DamagePlayer();
             if(_health <= 0) {
                 Debug.Log("Game Over");
             }
@@ -45,6 +48,12 @@ public class Player : MonoBehaviour
         GameObject newBullet = _poolController.GetBullet();
         newBullet.GetComponent<Proyectile>().SetPlayerBullet();
         newBullet.transform.position = transform.position + new Vector3(0, _bulletOffset, 0);
+    }
+
+    private void DamagePlayer() {
+        _health--;
+        _playerAnimator.SetInteger("Health", _health);
+        GameController.Instance.ShakeCamera();
     }
 
 }
