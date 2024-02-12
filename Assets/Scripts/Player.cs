@@ -1,16 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
     private int _health = 4;
+    private int _maxHealth = 4;
     [SerializeField] float _speed = 3;
     private PoolController _poolController;
 
     private float _bulletOffset = 0.6f;
 
     private Animator _playerAnimator;
+
+    public static UnityAction OnPlayerDeath;
 
     private void Awake() {
         _poolController = GameObject.Find("Spawner").GetComponent<PoolController>();
@@ -30,12 +34,11 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.tag == "EnemyBullet") {
             DamagePlayer();
-            if(_health <= 0) {
-                Debug.Log("Game Over");
-            }
         }
         if(collision.gameObject.tag == "Health") {
-            _health += collision.gameObject.GetComponent<Health>().getHealth();
+            if(_health < _maxHealth) {
+                _health += collision.gameObject.GetComponent<Health>().getHealth();
+            }
         }
     }
 
@@ -54,6 +57,10 @@ public class Player : MonoBehaviour
         _health--;
         _playerAnimator.SetInteger("Health", _health);
         GameController.Instance.ShakeCamera();
+        if(_health <= 0) {
+            OnPlayerDeath.Invoke();
+            Destroy(gameObject);
+        }
     }
 
 }

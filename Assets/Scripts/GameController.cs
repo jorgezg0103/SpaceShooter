@@ -8,6 +8,14 @@ public class GameController : MonoBehaviour
 
     private Animator _camAnimator;
 
+    private void OnEnable() {
+        Player.OnPlayerDeath += GameOver;
+    }
+
+    private void OnDisable() {
+        Player.OnPlayerDeath -= GameOver;
+    }
+
     private void Awake() {
         if(Instance != null && Instance != this) {
             Destroy(this);
@@ -21,5 +29,9 @@ public class GameController : MonoBehaviour
 
     public void ShakeCamera() {
         _camAnimator.SetTrigger("Shake");
+    }
+
+    private void GameOver() {
+        Debug.Log("WIP");
     }
 }
