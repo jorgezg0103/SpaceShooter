@@ -12,7 +12,22 @@ public class Proyectile : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        gameObject.SetActive(false);
+        if((collision.tag == "Player" && gameObject.tag == "EnemyBullet") || (collision.tag == "Enemy" && gameObject.tag == "PlayerBullet"))
+            gameObject.SetActive(false);
+    }
+
+    public void SetEnemyBullet() {
+        gameObject.tag = "EnemyBullet";
+        Vector3 currentRotation = transform.rotation.eulerAngles;
+        currentRotation = new Vector3(currentRotation.x, currentRotation.y, 180);
+        transform.rotation = Quaternion.Euler(currentRotation);
+    }
+
+    public void SetPlayerBullet() {
+        gameObject.tag = "PlayerBullet";
+        Vector3 currentRotation = transform.rotation.eulerAngles;
+        currentRotation = new Vector3(currentRotation.x, currentRotation.y, 0);
+        transform.rotation = Quaternion.Euler(currentRotation);
     }
 
 }
