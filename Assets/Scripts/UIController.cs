@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour {
 
@@ -75,10 +74,6 @@ public class UIController : MonoBehaviour {
             _uiComponents[(int) UI.PauseMenu].SetActive(true);
             _gamePausedButton = true;
         }
-    }
-
-    public void ReturnToMainMenu() {
-        SceneManager.LoadScene(0);
     }
 
 }

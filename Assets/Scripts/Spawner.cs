@@ -32,19 +32,23 @@ public class Spawner : MonoBehaviour {
     }
 
     private void OnEnable() {
-
+        GameController.OnGameStart += StartSpawn;
     }
 
     private void OnDisable() {
-
+        GameController.OnGameStart -= StartSpawn;
     }
 
     void Start() {
-        StartCoroutine(Spawn());
+        
     }
 
     void Update() {
         
+    }
+
+    private void StartSpawn() {
+        StartCoroutine(Spawn());
     }
 
     private Vector2 SelectRandomLocation() {
