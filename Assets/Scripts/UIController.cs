@@ -34,6 +34,7 @@ public class UIController : MonoBehaviour {
             _uiComponents.Add(child.gameObject);
         }
         GetHUDReferences();
+        LoadPlayerVolume();
     }
 
     private void ClearUI() {
@@ -74,6 +75,11 @@ public class UIController : MonoBehaviour {
             _uiComponents[(int) UI.PauseMenu].SetActive(true);
             _gamePausedButton = true;
         }
+    }
+
+    private void LoadPlayerVolume() {
+        GameObject slider = transform.GetChild((int) UI.OptionsMenu).GetChild(2).gameObject;
+        slider.GetComponent<Slider>().value = PlayerPrefs.GetFloat("Volume");
     }
 
 }

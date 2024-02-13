@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
 
     public static UnityAction OnGameStart;
 
+
     private void OnEnable() {
         Player.OnPlayerDeath += GameOver;
     }
@@ -68,6 +69,10 @@ public class GameController : MonoBehaviour
     public void AddScore() {
         _score += 10;
         _uiController.ChangeScore(_score);
+    }
+
+    public void ControlVolume(System.Single vol) {
+        PlayerPrefs.SetFloat("Volume",vol);
     }
 
 }
