@@ -33,10 +33,12 @@ public class Spawner : MonoBehaviour {
 
     private void OnEnable() {
         GameController.OnGameStart += StartSpawn;
+        Player.OnPlayerDeath += StopSpawn;
     }
 
     private void OnDisable() {
         GameController.OnGameStart -= StartSpawn;
+        Player.OnPlayerDeath -= StopSpawn;
     }
 
     void Start() {
@@ -49,6 +51,10 @@ public class Spawner : MonoBehaviour {
 
     private void StartSpawn() {
         StartCoroutine(Spawn());
+    }
+
+    private void StopSpawn() {
+        spawnOff = true;
     }
 
     private Vector2 SelectRandomLocation() {

@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
 
     private Animator _camAnimator;
     [SerializeField] private GameObject _player;
+    private UIController _uiController;
 
     public static UnityAction OnGameStart;
 
@@ -30,6 +31,7 @@ public class GameController : MonoBehaviour
         }
 
         _camAnimator = GameObject.Find("MainCamera").GetComponent<Animator>();
+        _uiController = GameObject.Find("Canvas").GetComponent<UIController>();
     }
 
     public void ShakeCamera() {
@@ -37,7 +39,7 @@ public class GameController : MonoBehaviour
     }
 
     public void GameOver() {
-        Debug.Log("WIP");
+        _uiController.SetUIComponent(UIController.UI.GameOverMenu);
     }
 
     public void ResumeGame() {
