@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject _player;
     private UIController _uiController;
 
+    private int _score = 0;
+
     public static UnityAction OnGameStart;
 
     private void OnEnable() {
@@ -39,7 +41,11 @@ public class GameController : MonoBehaviour
     }
 
     public void GameOver() {
+        _uiController.SetGameOverScore(_score);
         _uiController.SetUIComponent(UIController.UI.GameOverMenu);
+        int currentPoints = PlayerPrefs.GetInt("Points");
+        PlayerPrefs.SetInt("Points", currentPoints + _score);
+        Debug.Log("Current points: " + PlayerPrefs.GetInt("Points"));
     }
 
     public void ResumeGame() {
@@ -57,6 +63,11 @@ public class GameController : MonoBehaviour
     public void InitGame() {
         Instantiate(_player);
         OnGameStart.Invoke();
+    }
+
+    public void AddScore() {
+        _score += 10;
+        _uiController.ChangeScore(_score);
     }
 
 }

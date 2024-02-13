@@ -45,6 +45,7 @@ public class Scout : MonoBehaviour
             _health--;
             if(_health <= 0) {
                 StartCoroutine(Death());
+                GameController.Instance.AddScore();
             }
         }
         if(collision.gameObject.name == "TriggerLimit") {

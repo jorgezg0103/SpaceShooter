@@ -48,7 +48,7 @@ public class UIController : MonoBehaviour {
     }
 
     public void ChangeScore(int value) {
-        _score.GetChild(1).GetComponent<TextMeshProUGUI>().text = value.ToString();
+        _score.GetComponent<TextMeshProUGUI>().text = "SCORE: " + value;
     }
 
     private void GetHUDReferences() {
@@ -58,7 +58,7 @@ public class UIController : MonoBehaviour {
 
     public void SetGameOverScore(int value) {
         Transform scoreTransform = _uiComponents[(int) UI.GameOverMenu].transform.Find("Score");
-        scoreTransform.GetComponent<TextMeshProUGUI>().text = "Score: " + value;
+        scoreTransform.GetComponent<TextMeshProUGUI>().text = "SCORE: " + value;
     }
 
     public void TogglePauseButton() {
