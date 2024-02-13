@@ -25,13 +25,23 @@ public class GameController : MonoBehaviour
         }
 
         _camAnimator = GameObject.Find("MainCamera").GetComponent<Animator>();
+        PauseGame();
     }
 
     public void ShakeCamera() {
         _camAnimator.SetTrigger("Shake");
     }
 
-    private void GameOver() {
+    public void GameOver() {
         Debug.Log("WIP");
     }
+
+    public void ResumeGame() {
+        Time.timeScale = 1;
+    }
+
+    public void PauseGame() {
+        Time.timeScale = 0;
+    }
+
 }
