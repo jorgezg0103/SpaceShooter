@@ -93,10 +93,10 @@ public class UIController : MonoBehaviour {
     }
 
     public void UpgradeShip(string component) {
-        int cost = int.Parse(_costs[PlayerPrefs.GetInt(component)]);
-        if(cost < PlayerPrefs.GetInt("Points")) {
-            int currentLevel = PlayerPrefs.GetInt(component);
-            if(currentLevel < _maxLevel) {
+        int currentLevel = PlayerPrefs.GetInt(component);
+        if(currentLevel < _maxLevel) {
+            int cost = int.Parse(_costs[PlayerPrefs.GetInt(component)]);
+            if(cost < PlayerPrefs.GetInt("Points")) {
                 PlayerPrefs.SetInt(component, currentLevel + 1);
                 RefreshShopUI();
             }
