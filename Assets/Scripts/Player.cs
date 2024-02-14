@@ -16,6 +16,10 @@ public class Player : MonoBehaviour
 
     public static UnityAction OnPlayerDeath;
 
+    [SerializeField] private AudioClip _blasterSound;
+    [SerializeField] private AudioClip _playerHitSound;
+    [SerializeField] private AudioClip _pickUpSound;
+
     private void Awake() {
         _poolController = GameObject.Find("Spawner").GetComponent<PoolController>();
         _playerAnimator = gameObject.GetComponent<Animator>();
@@ -36,6 +40,7 @@ public class Player : MonoBehaviour
             DamagePlayer();
         }
         if(collision.gameObject.tag == "Health") {
+            AudioSource.PlayClipAtPoint(_pickUpSound, Camera.main.transform.position, PlayerPrefs.GetFloat("Volume"));
             if(_health < _maxHealth) {
                 _health += collision.gameObject.GetComponent<Health>().getHealth();
             }
@@ -51,12 +56,14 @@ public class Player : MonoBehaviour
         GameObject newBullet = _poolController.GetBullet();
         newBullet.GetComponent<Proyectile>().SetPlayerBullet();
         newBullet.transform.position = transform.position + new Vector3(0, _bulletOffset, 0);
+        AudioSource.PlayClipAtPoint(_blasterSound, Camera.main.transform.position, PlayerPrefs.GetFloat("Volume"));
     }
 
     private void DamagePlayer() {
         _health--;
         _playerAnimator.SetInteger("Health", _health);
         GameController.Instance.ShakeCamera();
+        AudioSource.PlayClipAtPoint(_playerHitSound, Camera.main.transform.position, PlayerPrefs.GetFloat("Volume"));
         if(_health <= 0) {
             OnPlayerDeath.Invoke();
             Destroy(gameObject);

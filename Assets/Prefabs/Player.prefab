@@ -146,6 +146,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
+  _blasterSound: {fileID: 8300000, guid: 201661f52d032304681942919157ff4c, type: 3}
+  _playerHitSound: {fileID: 8300000, guid: cab17f1799b96e54ebf3168e37d6a382, type: 3}
+  _pickUpSound: {fileID: 8300000, guid: b3da620747d03904a97def0cb4f2c0ff, type: 3}
 --- !u!50 &5771537225031861295
 Rigidbody2D:
   serializedVersion: 4

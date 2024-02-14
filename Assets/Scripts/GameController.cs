@@ -14,6 +14,9 @@ public class GameController : MonoBehaviour
 
     private int _score = 0;
 
+    private AudioSource _soundtrack;
+    [SerializeField] private AudioClip _gameOverSound;
+
     public static UnityAction OnGameStart;
 
 
@@ -35,6 +38,12 @@ public class GameController : MonoBehaviour
 
         _camAnimator = GameObject.Find("MainCamera").GetComponent<Animator>();
         _uiController = GameObject.Find("Canvas").GetComponent<UIController>();
+
+        _soundtrack = gameObject.GetComponent<AudioSource>();
+    }
+
+    private void Start() {
+        StartSoundtrack();
     }
 
     public void ShakeCamera() {
@@ -46,7 +55,8 @@ public class GameController : MonoBehaviour
         _uiController.SetUIComponent(UIController.UI.GameOverMenu);
         int currentPoints = PlayerPrefs.GetInt("Points");
         PlayerPrefs.SetInt("Points", currentPoints + _score);
-        Debug.Log("Current points: " + PlayerPrefs.GetInt("Points"));
+        _soundtrack.Stop();
+        AudioSource.PlayClipAtPoint(_gameOverSound, Camera.main.transform.position, PlayerPrefs.GetFloat("Volume"));
     }
 
     public void ResumeGame() {
@@ -73,6 +83,13 @@ public class GameController : MonoBehaviour
 
     public void ControlVolume(System.Single vol) {
         PlayerPrefs.SetFloat("Volume",vol);
+        if(_soundtrack)
+            _soundtrack.volume = vol;
+    }
+
+    private void StartSoundtrack() {
+        _soundtrack.Play();
+        _soundtrack.volume = PlayerPrefs.GetFloat("Volume");
     }
 
 }
