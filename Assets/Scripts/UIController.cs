@@ -94,7 +94,7 @@ public class UIController : MonoBehaviour {
 
     public void UpgradeShip(string component) {
         int cost = int.Parse(_costs[PlayerPrefs.GetInt(component)]);
-        if(cost < PlayerPrefs.GetInt("Score")) {
+        if(cost < PlayerPrefs.GetInt("Points")) {
             int currentLevel = PlayerPrefs.GetInt(component);
             if(currentLevel < _maxLevel) {
                 PlayerPrefs.SetInt(component, currentLevel + 1);
@@ -109,7 +109,7 @@ public class UIController : MonoBehaviour {
     }
 
     private void RefreshShopUI() {
-        _cashText.text = "SCORE: " + PlayerPrefs.GetInt("Score");
+        _cashText.text = "SCORE: " + PlayerPrefs.GetInt("Points");
         _engineLevelText.text = "ENGINE LEVEL: " + (PlayerPrefs.GetInt("Engine") + 1);
         _blasterLevelText.text = "BLASTER LEVEL: " + (PlayerPrefs.GetInt("Blaster") + 1);
         _engineUpgradeButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _costs[PlayerPrefs.GetInt("Engine")].ToString();
