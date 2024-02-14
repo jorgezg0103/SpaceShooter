@@ -12,7 +12,8 @@ public class UIController : MonoBehaviour {
         GameOverMenu,
         MainMenu,
         OptionsMenu,
-        CreditsMenu
+        CreditsMenu,
+        ShopMenu
     }
 
     private enum HUD {
@@ -29,12 +30,23 @@ public class UIController : MonoBehaviour {
     [SerializeField] private Sprite _play;
     [SerializeField] private Sprite _pause;
 
+    [Header("Shop UI")]
+    [SerializeField] private TextMeshProUGUI _cashText;
+    [SerializeField] private TextMeshProUGUI _engineLevelText;
+    [SerializeField] private TextMeshProUGUI _blasterLevelText;
+    [SerializeField] private Button _engineUpgradeButton;
+    [SerializeField] private Button _blasterUpgradeButton;
+
+    private static string[] _costs = { "50", "100", "200", "400", "MAX" };
+    private static int _maxLevel = 4;
+
     private void Awake() {
         foreach(Transform child in transform) {
             _uiComponents.Add(child.gameObject);
         }
         GetHUDReferences();
         LoadPlayerVolume();
+        RefreshShopUI();
     }
 
     private void ClearUI() {
@@ -77,9 +89,28 @@ public class UIController : MonoBehaviour {
         }
     }
 
+    public void UpgradeShip(string component) {
+        int cost = int.Parse(_costs[PlayerPrefs.GetInt(component)]);
+        if(cost < PlayerPrefs.GetInt("Score")) {
+            int currentLevel = PlayerPrefs.GetInt(component);
+            if(currentLevel < _maxLevel) {
+                PlayerPrefs.SetInt(component, currentLevel + 1);
+                RefreshShopUI();
+            }
+        }
+    }
+
     private void LoadPlayerVolume() {
         GameObject slider = transform.GetChild((int) UI.OptionsMenu).GetChild(2).gameObject;
         slider.GetComponent<Slider>().value = PlayerPrefs.GetFloat("Volume");
+    }
+
+    private void RefreshShopUI() {
+        _cashText.text = "SCORE: " + PlayerPrefs.GetInt("Score");
+        _engineLevelText.text = "ENGINE LEVEL: " + (PlayerPrefs.GetInt("Engine") + 1);
+        _blasterLevelText.text = "BLASTER LEVEL: " + (PlayerPrefs.GetInt("Blaster") + 1);
+        _engineUpgradeButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _costs[PlayerPrefs.GetInt("Engine")].ToString();
+        _blasterUpgradeButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _costs[PlayerPrefs.GetInt("Blaster")].ToString();
     }
 
 }
