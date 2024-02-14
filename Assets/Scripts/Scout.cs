@@ -22,6 +22,8 @@ public class Scout : MonoBehaviour
     float _minShootInterval = 1f;
     float _maxShootInterval = 3f;
 
+    [SerializeField] private AudioClip _enemyHitSound;
+
     private void Awake() {
         InitializeAnimParams();
     }
@@ -43,6 +45,7 @@ public class Scout : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.tag == "Player" || collision.gameObject.tag == "PlayerBullet") {
             _health--;
+            AudioSource.PlayClipAtPoint(_enemyHitSound, Camera.main.transform.position, PlayerPrefs.GetFloat("Volume"));
             if(_health <= 0) {
                 StartCoroutine(Death());
                 GameController.Instance.AddScore();

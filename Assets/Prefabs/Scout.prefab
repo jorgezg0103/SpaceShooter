@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _poolController: {fileID: 0}
+  _enemyHitSound: {fileID: 8300000, guid: 005a638582242f641ac8fc39cfbbc29c, type: 3}
 --- !u!61 &7147153731937578498
 BoxCollider2D:
   m_ObjectHideFlags: 0
