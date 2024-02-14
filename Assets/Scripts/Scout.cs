@@ -44,7 +44,7 @@ public class Scout : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.tag == "Player" || collision.gameObject.tag == "PlayerBullet") {
-            _health--;
+            _health -= (PlayerPrefs.GetInt("Blaster") + 1);
             AudioSource.PlayClipAtPoint(_enemyHitSound, Camera.main.transform.position, PlayerPrefs.GetFloat("Volume"));
             if(_health <= 0) {
                 StartCoroutine(Death());

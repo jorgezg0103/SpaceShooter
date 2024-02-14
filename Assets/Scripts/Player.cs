@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     private void Awake() {
         _poolController = GameObject.Find("Spawner").GetComponent<PoolController>();
         _playerAnimator = gameObject.GetComponent<Animator>();
+        _speed += PlayerPrefs.GetInt("Engine"); 
     }
 
     private void Update() {

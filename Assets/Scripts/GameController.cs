@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour
 
     public static UnityAction OnGameStart;
 
+    private float _defaultVolume = 0.5f;
+
 
     private void OnEnable() {
         Player.OnPlayerDeath += GameOver;
@@ -38,7 +40,7 @@ public class GameController : MonoBehaviour
 
         _camAnimator = GameObject.Find("MainCamera").GetComponent<Animator>();
         _uiController = GameObject.Find("Canvas").GetComponent<UIController>();
-
+        InitVolume();
         _soundtrack = gameObject.GetComponent<AudioSource>();
     }
 
@@ -87,9 +89,15 @@ public class GameController : MonoBehaviour
             _soundtrack.volume = vol;
     }
 
+    private void InitVolume() {
+        if(!PlayerPrefs.HasKey("Volume")) {
+            PlayerPrefs.SetFloat("Volume", _defaultVolume);
+        }
+    }
+
     private void StartSoundtrack() {
-        _soundtrack.Play();
         _soundtrack.volume = PlayerPrefs.GetFloat("Volume");
+        _soundtrack.Play(); 
     }
 
 }
