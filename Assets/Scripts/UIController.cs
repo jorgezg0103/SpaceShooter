@@ -45,8 +45,11 @@ public class UIController : MonoBehaviour {
             _uiComponents.Add(child.gameObject);
         }
         GetHUDReferences();
-        LoadPlayerVolume();
         RefreshShopUI();
+    }
+
+    private void Start() {
+        LoadPlayerVolume();
     }
 
     private void ClearUI() {
