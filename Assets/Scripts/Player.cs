@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
         }
         if(collision.gameObject.tag == "Health") {
             AudioSource.PlayClipAtPoint(_pickUpSound, Camera.main.transform.position, PlayerPrefs.GetFloat("Volume"));
+            _playerAnimator.SetInteger("Health", _health);
             if(_health < _maxHealth) {
                 _health += collision.gameObject.GetComponent<Health>().getHealth();
             }
