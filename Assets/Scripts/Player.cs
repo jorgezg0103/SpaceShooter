@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.gameObject.tag == "EnemyBullet") {
+        if(collision.gameObject.tag == "EnemyBullet" || collision.gameObject.tag == "Enemy") {
             DamagePlayer();
         }
         if(collision.gameObject.tag == "Health") {
