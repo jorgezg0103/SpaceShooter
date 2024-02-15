@@ -14,6 +14,7 @@ public class Scout : MonoBehaviour
 
     private float _speed = 3f;
     private int _health = 1;
+    private int _maxHealth = 10;
 
     private float _bulletOffset = -0.6f;
 
@@ -21,6 +22,7 @@ public class Scout : MonoBehaviour
     float _timeBtwShoot = 1f;
     float _minShootInterval = 1f;
     float _maxShootInterval = 3f;
+    float _minShootIntervalLimit = 1f;
 
     [SerializeField] private AudioClip _enemyHitSound;
 
@@ -99,6 +101,19 @@ public class Scout : MonoBehaviour
                 _timer = 0;
             }
             yield return null;
+        }
+    }
+
+    public void SetHealth(int value) {
+        if(_health < _maxHealth)
+            _health = value;
+    }
+
+    public void ReduceShootRate(int round) {
+        float divider = 0.2f;
+        if(_minShootInterval > _minShootIntervalLimit) {
+            _minShootInterval -= round * divider;
+            _maxShootInterval -= round * divider;
         }
     }
 

@@ -14,18 +14,19 @@ public class Spawner : MonoBehaviour {
     private PoolController _poolManager;
 
     [Header("Spawn Settings")]
-    [SerializeField] private float _minSpawnTime = 2f;
-    [SerializeField] private float _maxSpawmTime = 3f;
+    [SerializeField] private float timeBtwSpawn = 6f;
     [SerializeField] private float _spawnPickUpProb = 0.1f;
 
     [Header("Scout Squad Settings")]
     [SerializeField] private int _minSquadUnits = 3;
     [SerializeField] private int _maxSquadUnits = 6;
+    [SerializeField] private int _maxSquadLimit = 18;
     [SerializeField] private Waypoints _waypointsValues;
 
-    private float timeBtwSpawn = 2f;
     private float timer = 0;
     private bool spawnOff = false;
+
+    private int _round = 0;
 
     private void Awake() {
         _poolManager = gameObject.GetComponent<PoolController>();
@@ -72,6 +73,8 @@ public class Spawner : MonoBehaviour {
         Vector2[] selectedPath = _waypointsValues.paths[randomPathIndex];
         for(int i = 0; i < quantity; i++) {
             GameObject enemy = _poolManager.GetScout();
+            enemy.GetComponent<Scout>().SetHealth(_round);
+            enemy.GetComponent<Scout>().ReduceShootRate(_round);
             enemy.GetComponent<Scout>().SetScoutPath(selectedPath);
             enemy.transform.position = transform.position + new Vector3(0f, i*2);
         }
@@ -121,8 +124,12 @@ public class Spawner : MonoBehaviour {
     private IEnumerator Spawn() {
         while(!spawnOff) {
             timer += Time.deltaTime;
-            if(timer >= timeBtwSpawn) {
-                timeBtwSpawn = Random.Range(_minSpawnTime, _maxSpawmTime);
+            if(timer >= timeBtwSpawn || _poolManager.AreAllScoutsDead()) {
+                _round++;
+                if(_maxSquadUnits < _maxSquadLimit) {
+                    _minSquadUnits += _round;
+                    _maxSquadUnits += _round;
+                }
                 SpawnEntity();
                 timer = 0;
             }

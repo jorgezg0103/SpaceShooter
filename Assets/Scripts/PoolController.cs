@@ -61,4 +61,14 @@ public class PoolController : MonoBehaviour {
         return obj;
     }
 
+    public bool AreAllScoutsDead() {
+        bool allDead = true;
+        foreach(GameObject scout in _scoutPool) {
+            if(scout.activeInHierarchy) {
+                allDead = false;
+            }
+        }
+        return allDead;
+    }
+
 }
