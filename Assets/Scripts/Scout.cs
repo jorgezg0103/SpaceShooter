@@ -19,10 +19,10 @@ public class Scout : MonoBehaviour
     private float _bulletOffset = -0.6f;
 
     float _timer = 0f;
-    float _timeBtwShoot = 1f;
-    float _minShootInterval = 1f;
-    float _maxShootInterval = 3f;
-    float _minShootIntervalLimit = 1f;
+    float _timeBtwShoot = 4f;
+    float _minShootInterval = 4f;
+    float _maxShootInterval = 6f;
+    float _minShootIntervalLimit = 2f;
 
     [SerializeField] private AudioClip _enemyHitSound;
 
@@ -110,7 +110,7 @@ public class Scout : MonoBehaviour
     }
 
     public void ReduceShootRate(int round) {
-        float divider = 0.2f;
+        float divider = 0.1f;
         if(_minShootInterval > _minShootIntervalLimit) {
             _minShootInterval -= round * divider;
             _maxShootInterval -= round * divider;

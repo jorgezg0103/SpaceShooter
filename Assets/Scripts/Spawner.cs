@@ -121,14 +121,18 @@ public class Spawner : MonoBehaviour {
         spawnOff = true;
     }
 
+    private bool IsEvenRound() {
+        return _round % 2 == 0;
+    }
+
     private IEnumerator Spawn() {
         while(!spawnOff) {
             timer += Time.deltaTime;
             if(timer >= timeBtwSpawn || _poolManager.AreAllScoutsDead()) {
                 _round++;
-                if(_maxSquadUnits < _maxSquadLimit) {
-                    _minSquadUnits += _round;
-                    _maxSquadUnits += _round;
+                if(_maxSquadUnits < _maxSquadLimit && IsEvenRound()) {
+                    _minSquadUnits += 1;
+                    _maxSquadUnits += 1;
                 }
                 SpawnEntity();
                 timer = 0;
