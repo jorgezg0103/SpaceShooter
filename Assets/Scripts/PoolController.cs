@@ -33,6 +33,9 @@ public class PoolController : MonoBehaviour {
     public GameObject GetScout() {
         GameObject newEnemy;
         newEnemy = GetObjectFromPool(_scoutPool, _scoutPrefab);
+        foreach(Transform child in newEnemy.transform) {
+            child.gameObject.SetActive(true);
+        }
         newEnemy.GetComponent<BoxCollider2D>().enabled = true;
         return newEnemy;
     }

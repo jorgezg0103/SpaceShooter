@@ -24,6 +24,8 @@ public class Scout : MonoBehaviour
     float _maxShootInterval = 6f;
     float _minShootIntervalLimit = 2f;
 
+    bool _alreadyDead = false;
+
     [SerializeField] private AudioClip _enemyHitSound;
 
     private void Awake() {
@@ -46,14 +48,17 @@ public class Scout : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.tag == "Player" || collision.gameObject.tag == "PlayerBullet") {
-            _health -= (PlayerPrefs.GetInt("Blaster") + 1);
-            AudioSource.PlayClipAtPoint(_enemyHitSound, Camera.main.transform.position, PlayerPrefs.GetFloat("Volume"));
-            if(_health <= 0) {
-                StartCoroutine(Death());
-                GameController.Instance.AddScore();
-            }
-            else {
-                _scoutAnimator.SetTrigger("isHit");
+            if(!_alreadyDead) {
+                _health -= (PlayerPrefs.GetInt("Blaster") + 1);
+                AudioSource.PlayClipAtPoint(_enemyHitSound, Camera.main.transform.position, PlayerPrefs.GetFloat("Volume"));
+                if(_health <= 0) {
+                    _alreadyDead = true;
+                    StartCoroutine(Death());
+                    GameController.Instance.AddScore();
+                }
+                else {
+                    _scoutAnimator.SetTrigger("isHit");
+                }
             }
         }
         if(collision.gameObject.name == "TriggerLimit") {
@@ -82,6 +87,7 @@ public class Scout : MonoBehaviour
         }
         yield return new WaitForSeconds(_deathAnimDuration);
         gameObject.SetActive(false);
+        _alreadyDead = false;
         _currentWayPoint = 0;
         _scoutAnimator.SetBool("isDead", false);
     }
