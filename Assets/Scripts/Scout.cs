@@ -14,13 +14,17 @@ public class Scout : MonoBehaviour
 
     private float _speed = 3f;
     private int _health = 1;
+    private int _maxHealth = 10;
 
     private float _bulletOffset = -0.6f;
 
     float _timer = 0f;
-    float _timeBtwShoot = 1f;
-    float _minShootInterval = 1f;
-    float _maxShootInterval = 3f;
+    float _timeBtwShoot = 4f;
+    float _minShootInterval = 4f;
+    float _maxShootInterval = 6f;
+    float _minShootIntervalLimit = 2f;
+
+    bool _alreadyDead = false;
 
     [SerializeField] private AudioClip _enemyHitSound;
 
@@ -44,11 +48,17 @@ public class Scout : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.gameObject.tag == "Player" || collision.gameObject.tag == "PlayerBullet") {
-            _health -= (PlayerPrefs.GetInt("Blaster") + 1);
-            AudioSource.PlayClipAtPoint(_enemyHitSound, Camera.main.transform.position, PlayerPrefs.GetFloat("Volume"));
-            if(_health <= 0) {
-                StartCoroutine(Death());
-                GameController.Instance.AddScore();
+            if(!_alreadyDead) {
+                _health -= (PlayerPrefs.GetInt("Blaster") + 1);
+                AudioSource.PlayClipAtPoint(_enemyHitSound, Camera.main.transform.position, PlayerPrefs.GetFloat("Volume"));
+                if(_health <= 0) {
+                    _alreadyDead = true;
+                    StartCoroutine(Death());
+                    GameController.Instance.AddScore();
+                }
+                else {
+                    _scoutAnimator.SetTrigger("isHit");
+                }
             }
         }
         if(collision.gameObject.name == "TriggerLimit") {
@@ -77,6 +87,7 @@ public class Scout : MonoBehaviour
         }
         yield return new WaitForSeconds(_deathAnimDuration);
         gameObject.SetActive(false);
+        _alreadyDead = false;
         _currentWayPoint = 0;
         _scoutAnimator.SetBool("isDead", false);
     }
@@ -99,6 +110,19 @@ public class Scout : MonoBehaviour
                 _timer = 0;
             }
             yield return null;
+        }
+    }
+
+    public void SetHealth(int value) {
+        if(_health < _maxHealth)
+            _health = value;
+    }
+
+    public void ReduceShootRate(int round) {
+        float divider = 0.1f;
+        if(_minShootInterval > _minShootIntervalLimit) {
+            _minShootInterval -= round * divider;
+            _maxShootInterval -= round * divider;
         }
     }
 
