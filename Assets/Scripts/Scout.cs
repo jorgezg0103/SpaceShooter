@@ -52,6 +52,9 @@ public class Scout : MonoBehaviour
                 StartCoroutine(Death());
                 GameController.Instance.AddScore();
             }
+            else {
+                _scoutAnimator.SetTrigger("isHit");
+            }
         }
         if(collision.gameObject.name == "TriggerLimit") {
             gameObject.SetActive(false);
