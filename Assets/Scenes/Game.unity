@@ -159,7 +159,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -250}
+  m_AnchoredPosition: {x: 0, y: -150}
   m_SizeDelta: {x: 300, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &58124030
@@ -1769,7 +1769,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GALACTIC WAREHOUSE
+  m_text: WAREHOUSE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e7f64b0f0b8f7504e9ff7eb3bb289f56, type: 2}
   m_sharedMaterial: {fileID: -2837873622450427328, guid: e7f64b0f0b8f7504e9ff7eb3bb289f56, type: 2}
@@ -1796,8 +1796,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4104,11 +4104,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52f0d96a06e82e640a7d3f434f40f204, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minSpawnTime: 3
-  _maxSpawmTime: 5
+  timeBtwSpawn: 8
   _spawnPickUpProb: 0.1
   _minSquadUnits: 3
   _maxSquadUnits: 6
+  _maxSquadLimit: 18
   _waypointsValues: {fileID: 11400000, guid: a61003b382a71de43967222c9c818f51, type: 2}
 --- !u!4 &1161878582
 Transform:
@@ -7217,7 +7217,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -150}
+  m_AnchoredPosition: {x: 0, y: -250}
   m_SizeDelta: {x: 300, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2139449286
