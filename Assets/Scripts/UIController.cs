@@ -37,7 +37,7 @@ public class UIController : MonoBehaviour {
     [SerializeField] private Button _engineUpgradeButton;
     [SerializeField] private Button _blasterUpgradeButton;
 
-    private static string[] _costs = { "50", "100", "200", "400", "MAX" };
+    private static string[] _costs = { "100", "200", "500", "1000", "MAX" };
     private static int _maxLevel = 4;
 
     private void Awake() {
@@ -98,6 +98,8 @@ public class UIController : MonoBehaviour {
             int cost = int.Parse(_costs[PlayerPrefs.GetInt(component)]);
             if(cost < PlayerPrefs.GetInt("Points")) {
                 PlayerPrefs.SetInt(component, currentLevel + 1);
+                int pointsAfterUpgrade = PlayerPrefs.GetInt("Points") - cost;
+                PlayerPrefs.SetInt("Points", pointsAfterUpgrade);
                 RefreshShopUI();
             }
         }

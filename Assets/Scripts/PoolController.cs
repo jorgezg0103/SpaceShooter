@@ -33,6 +33,9 @@ public class PoolController : MonoBehaviour {
     public GameObject GetScout() {
         GameObject newEnemy;
         newEnemy = GetObjectFromPool(_scoutPool, _scoutPrefab);
+        foreach(Transform child in newEnemy.transform) {
+            child.gameObject.SetActive(true);
+        }
         newEnemy.GetComponent<BoxCollider2D>().enabled = true;
         return newEnemy;
     }
@@ -59,6 +62,16 @@ public class PoolController : MonoBehaviour {
         }
         obj.SetActive(true);
         return obj;
+    }
+
+    public bool AreAllScoutsDead() {
+        bool allDead = true;
+        foreach(GameObject scout in _scoutPool) {
+            if(scout.activeInHierarchy) {
+                allDead = false;
+            }
+        }
+        return allDead;
     }
 
 }
